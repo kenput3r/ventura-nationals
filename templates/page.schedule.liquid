@@ -1,0 +1,108 @@
+<style>
+  .template-schedule {
+    background-color: #000000;
+  }
+  .schedule {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 35px;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 10px;
+  }
+  .column:nth-of-type(1), .column:nth-of-type(2) {
+    border-right: 2px solid #ffffff;
+  }
+  .column h2 {
+    color: var(--vn-red);
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  .column:nth-of-type(2) h2 {
+    color: var(--vn-green-dark);
+  }
+  .column h2 span {
+    display: block;
+  }
+  .column p {
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .column p span {
+    color: var(--vn-yellow);
+  }
+  #shopify-section-hero {
+    padding-top: 0;
+  }
+  .hero {
+    background-color: #000000;
+  }
+  @media (max-width: 500px) {
+    #shopify-section-hero .hero-hero {
+      height: 320px;
+    }
+    .schedule {
+      flex-wrap: wrap;
+    }
+    .column {
+      width: 100%;
+      flex: none;
+    }
+    .column:nth-of-type(1), .column:nth-of-type(2) {
+      border-right: 0;
+      border-bottom: 2px solid #ffffff;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+    }
+  }
+  @media (max-width: 320px) {
+    #shopify-section-hero .hero-hero {
+      height: 250px;
+    }
+  }
+</style>
+
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+      <div class="section-header text-center">
+        <h1><img src="{{ 'schedule-of-events.png' | asset_img_url: '640x' }}" alt="schedule of events" /></h1>
+      </div>
+
+      <div class="schedule">
+        <div class="column">
+          <h2>FRIDAY <span>SEPT 3</span></h2>
+          <p>EVENTS TO BE ANNOUNCED SOON</p>
+        </div>
+
+        <div class="column">
+          <h2>SATURDAY <span>SEPT 4</span></h2>
+          <p>
+            <span>7am:</span> GATES OPEN FOR PARTICIPANTS <br />
+            <span>10am:</span> HOT ROD, CUSTOM & MOTORCYCLE SHOW BEGINS<br />
+            <span>4pm:</span> AWARDS<br />
+            <span>5pm:</span> END OF SHOW<br />
+          </p>
+        </div>
+
+        <div class="column">
+          <h2>SUNDAY <span>SEPT 5</span></h2>
+          <p>
+            <span>9:30am:</span> RELIABILITY RUN CRUISE BEGINS
+          </p>
+          <p>DETAILS ON ROUTE AND ENDING LOCATION TO COME</p>
+        </div>
+      </div>
+
+      <div class="address text-center">
+        <img src="{{ 'address.png' | asset_img_url: '640x' }}" alt="address" />
+      </div>
+    </div>
+  </div>
+</div>
+
+{% section 'hero' %}
