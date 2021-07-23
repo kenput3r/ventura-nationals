@@ -1,3 +1,97 @@
+<style>
+  .site-footer {
+    padding-bottom: 0;
+  }
+  .site-footer__content.newsletter {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 480px;
+  }
+  .newsletter .h4.text-left {
+    color: #ca5d45;
+    font-size: 2rem;
+    margin-bottom: 0px;
+  }
+  .newsletter #ContactFooter-email {
+    flex-basis: auto;
+    -webkit-flex-basis: auto;
+  }
+  .newsletter .input-group__btn {
+    margin-left: auto;
+    margin-top: 10px;
+    max-width: 30%;
+    position: relative;
+    width: 30%;
+  }
+  .newsletter .btn.newsletter__submit {
+    background-color: #ca5d45;
+    font-family: var(--font-stack-body);
+    font-size: 1.6rem;
+    padding: 0 18px;
+  }
+  .newsletter .btn.newsletter__submit:before {
+    border: 2px solid #ca5d45;
+    bottom: 0;
+    content: " ";
+    display: block;
+    margin-left: -6px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 6px);
+  }
+  .page-width.footer-bottom {
+    background-color: #9fc6b2;
+    max-width: 100%;
+    padding-top: 35px;
+  }
+  .footer-bottom .site-footer__content {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    width: 800px;
+  }
+  .site-footer__item-inner--link_list .h4 {
+    font-family: var(--font-stack-body);
+    margin-bottom: 0;
+  }
+  .site-footer__linklist {
+    font-size: 1.6rem;
+  }
+  .site-footer__rte a:hover, .site-footer__linklist-item a:hover, .site-footer__copyright-content a:hover {
+    opacity: 0.7;
+  }
+  img.list-action {
+    height: 1.2rem;
+    padding-right: 5px;
+  }
+  @media (max-width: 500px) {
+    .newsletter .input-group__btn {
+      max-width: 60%;
+      width: 50%;
+    }
+    .site-footer__linklist-item {
+      padding: 5px 0;
+    }
+    .footer-bottom .site-footer__item {
+      margin-bottom: 25px;
+    }
+  }
+  @media (max-width: 375px) {
+    #shopify-section-collection .shop-all .btn {
+      font-size: 1.2rem;
+    }
+    .site-footer__linklist {
+      font-size: 1.2rem;
+    }
+    img.list-action {
+        height: 0.8rem;
+    }
+  }
+</style>
+
 {%- assign social_icons = false -%}
 {%- assign inline_list = false -%}
 {%- assign locale_selector = false -%}
@@ -84,6 +178,8 @@
   {%- assign footer_text_color_hover = footer_text_color | color_darken: 10 -%}
 {%- endif -%}
 
+{% comment %}override lightening on footer hover text color{% endcomment %}
+{%- assign footer_text_color_hover = "#000000" -%}
 <style>
   .site-footer__hr {
     border-bottom: 1px solid {{ section.settings.color_footer_bg | color_darken: 10 }};
@@ -139,92 +235,61 @@
 
 <footer class="site-footer critical-hidden" role="contentinfo" data-section-id="{{ section.id }}" data-section-type="footer-section">
   <div class="page-width">
-    <div class="site-footer__content">
+    <div class="site-footer__content newsletter">
       {%- for block in section.blocks -%}
-
-        <div class="site-footer__item
-                    {% if section.blocks.size == 1 %} site-footer__item--center{% endif %}
-                    {{ footer_item }}
-                    {% if block.type == 'newsletter' and section.blocks.size == 3 %}site-footer-newsletter__one-half{% endif %}"
-             {{ block.shopify_attributes }}>
-          <div class="site-footer__item-inner site-footer__item-inner--{{ block.type }}">
-
-            {%- if block.settings.title -%}
-              <p class="h4">{{ block.settings.title | escape }}</p>
-            {%- endif -%}
-
-            {%- case block.type -%}
-              {%- when 'newsletter' -%}
-                <div class="site-footer__newsletter
-                          {% if section.blocks.size == 1 %} site-footer__single-block--centered{% endif %}">
-                  {%- assign formId = 'ContactFooter' -%}
-                  {% form 'customer', id: formId, novalidate: 'novalidate' %}
-                    {%- if form.posted_successfully? -%}
-                      <p class="form-message form-message--success" tabindex="-1" data-form-status>
-                        {{ 'general.newsletter_form.confirmation' | t }}
-                      </p>
-                    {%- endif -%}
-                    <input type="hidden" name="contact[tags]" value="newsletter">
-                    <div class="input-group {% if form.errors %} input-group--error{% endif %}">
-                      <input type="email"
-                        name="contact[email]"
-                        id="{{ formId }}-email"
-                        class="input-group__field newsletter__input{% if form.errors %} input--error{% endif %}"
-                        value="{{ form.email }}"
-                        placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
-                        aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
-                        aria-required="true"
-                        required
-                        autocorrect="off"
-                        autocapitalize="off"
-                        {% if form.errors %}
-                          aria-invalid="true"
-                          aria-describedby="{{ formId }}-email-error"
-                          data-form-status
-                        {% endif %}>
-                      <span class="input-group__btn">
-                        <button type="submit" class="btn newsletter__submit" name="commit" >
-                          <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
-                        </button>
-                      </span>
-                    </div>
-                    {% if form.errors contains 'email' %}
-                      <span id="{{ formId }}-email-error" class="input-error-message">
-                        <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
-                        {% include 'icon-error' %}
-                        <span class="site-footer__newsletter-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
-                      </span>
-                    {% endif %}
-                  {% endform %}
-                </div>
-
-              {%- when 'text' -%}
-                {%- if block.settings.text != blank -%}
-                  <div class="site-footer__rte
-                              {% if section.blocks.size == 1 %} site-footer__single-block--centered{% endif %}">
-                      {{ block.settings.text }}
+        {%- if block.type == 'newsletter' -%}
+          <div class="site-footer__item
+                      site-footer__item--center
+                      {{ footer_item }}"
+              {{ block.shopify_attributes }}>
+            <div class="site-footer__item-inner site-footer__item-inner--{{ block.type }}">
+              {%- if block.settings.title -%}
+                <p class="h4 text-left">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+              <div class="site-footer__newsletter site-footer__single-block--centered">
+                {%- assign formId = 'ContactFooter' -%}
+                {% form 'customer', id: formId, novalidate: 'novalidate' %}
+                  {%- if form.posted_successfully? -%}
+                    <p class="form-message form-message--success" tabindex="-1" data-form-status>
+                      {{ 'general.newsletter_form.confirmation' | t }}
+                    </p>
+                  {%- endif -%}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <div class="input-group {% if form.errors %} input-group--error{% endif %}">
+                    <input type="email"
+                      name="contact[email]"
+                      id="{{ formId }}-email"
+                      class="input-group__field newsletter__input{% if form.errors %} input--error{% endif %}"
+                      value="{{ form.email }}"
+                      placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                      aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                      aria-required="true"
+                      required
+                      autocorrect="off"
+                      autocapitalize="off"
+                      {% if form.errors %}
+                        aria-invalid="true"
+                        aria-describedby="{{ formId }}-email-error"
+                        data-form-status
+                      {% endif %}>
+                    <span class="input-group__btn">
+                      <button type="submit" class="btn newsletter__submit" name="commit" >
+                        <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                      </button>
+                    </span>
                   </div>
-                {%- endif -%}
-
-              {%- when 'link_list' -%}
-                {%- assign footer_linklist = block.settings.menu -%}
-                  <ul class="site-footer__linklist
-                            {% if inline_list %}list--inline{% endif %}">
-                    {%- for link in linklists[footer_linklist].links -%}
-                      <li class="site-footer__linklist-item">
-                        <a href="{{ link.url }}"
-                          {% if link.current %} aria-current="page"{% endif %}
-                        >
-                          {{ link.title | escape }}
-                        </a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-
-            {%- endcase -%}
-
+                  {% if form.errors contains 'email' %}
+                    <span id="{{ formId }}-email-error" class="input-error-message">
+                      <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                      {% include 'icon-error' %}
+                      <span class="site-footer__newsletter-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+                    </span>
+                  {% endif %}
+                {% endform %}
+              </div>
+            </div>
           </div>
-        </div>
+        {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
@@ -233,7 +298,61 @@
 
   {%- assign socials = "Facebook Twitter Pinterest Instagram Tumblr Snapchat YouTube Vimeo" | split: ' ' -%}
 
-  <div class="page-width">
+  <div class="page-width footer-bottom">
+
+
+    <div class="site-footer__content">
+      {%- for block in section.blocks -%}
+        {%- if block.type != "newsletter" -%}
+          <div class="site-footer__item
+                      {% if section.blocks.size == 1 %} site-footer__item--center{% endif %}
+                      {{ footer_item }}
+                      {% if block.type == 'newsletter' and section.blocks.size == 3 %}site-footer-newsletter__one-half{% endif %}"
+              {{ block.shopify_attributes }}>
+            <div class="site-footer__item-inner site-footer__item-inner--{{ block.type }}">
+
+              {%- if block.settings.title and block.type != "newsletter" -%}
+                <p class="h4">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+
+              {%- case block.type -%}
+                {%- when 'text' -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="site-footer__rte
+                                {% if section.blocks.size == 1 %} site-footer__single-block--centered{% endif %}">
+                        {{ block.settings.text }}
+                    </div>
+                  {%- endif -%}
+
+                {%- when 'link_list' -%}
+                  {%- assign footer_linklist = block.settings.menu -%}
+                    <ul class="site-footer__linklist
+                              {% if inline_list %}list--inline{% endif %}">
+                      {%- for link in linklists[footer_linklist].links -%}
+                        <li class="site-footer__linklist-item">
+                          <a href="{{ link.url }}"
+                            {% if link.current %} aria-current="page"{% endif %}
+                          >
+                            {%- if link.url contains "mailto:" -%}
+                              <img src="https://cdn.shopify.com/s/files/1/0559/5899/5104/files/email.png?v=1626931879" alt="email" class="list-action" />
+                            {%- elsif link.url contains "tel:" -%}
+                              <img src="https://cdn.shopify.com/s/files/1/0559/5899/5104/files/phone.png?v=1627005618" alt="call" class="list-action" />
+                            {%- endif -%}
+                            {{ link.title | escape }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+
+              {%- endcase -%}
+
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+
     <div class="grid grid--no-gutters small--text-center grid--footer-float-right">
       {%- if show_selectors -%}
         <div class="grid__item one-half small--one-whole">
@@ -293,7 +412,7 @@
 
       <div class="grid__item {% if show_selectors or show_payment_icons %}one-half{% endif %} small--one-whole site-footer-item-tall">
         {%- if social_icons -%}
-          <ul class="list--inline site-footer__social-icons social-icons site-footer__icon-list">
+          <ul class="list--inline site-footer__social-icons social-icons site-footer__icon-list text-center">
             {%- for social in socials -%}
               {%- assign social_link = social | prepend: 'social_' | append: '_link' | downcase -%}
               {%- assign icon_link = social | prepend: 'icon-' | downcase -%}
@@ -337,7 +456,7 @@
         </div>
       {%- endif -%}
 
-      <div class="grid__item small--one-whole {{ copyright_show_class }} site-footer-item-align-right">
+      <div class="grid__item small--one-whole {{ copyright_show_class }} text-center">
         <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small>
         <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">{{ powered_by_link }}</small>
       </div>

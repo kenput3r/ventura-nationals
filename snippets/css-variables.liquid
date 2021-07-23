@@ -69,11 +69,15 @@
     --font-weight-body--bold: {{ base_font_bold.weight | default: 700 }};
     --font-weight-body--bolder: {{ base_font_bolder.weight | default: 700 }};
 
-    --font-stack-header: {{ header_font.family }}, {{ header_font.fallback_families }};
+    {% comment %}header_font_family = header_font.family | append: "," | append: header_font.fallback_families {% endcomment %}
+    {% assign header_font_family = "astounder-squared-bb, sans-serif" %}
+    --font-stack-header: {{ header_font_family }};
     --font-style-header: {{ header_font.style }};
     --font-weight-header: {{ header_font.weight }};
-
-    --font-stack-body: {{ base_font.family }}, {{ base_font.fallback_families }};
+    
+    {% comment %}base_font_family = base_font.family | append: "," | append: base_font.fallback_famiies{% endcomment %}
+    {% assign base_font_family = "alternate-gothic-no-3-d, sans-serif" %}
+    --font-stack-body: {{ base_font_family }};
     --font-style-body: {{ base_font.style }};
     --font-weight-body: {{ base_font.weight }};
 

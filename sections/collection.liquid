@@ -26,9 +26,19 @@
 
   <ul class="grid grid--uniform grid--view-items">
     {% for product in collection.products limit: product_limit %}
-      <li class="grid__item grid__item--{{section.id}} {{ grid_item_width }}">
-        {% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
-      </li>
+      {% if forloop.index == product_limit %}
+        <li class="grid__item grid__item--{{section.id}} {{ grid_item_width }}">
+          <div class="text-center shop-all">
+            <a href="{{ collection.url }}" class="btn" aria-label="{{ 'collections.general.view_all_label' | t: collection_name: collection.title }}">
+              SHOP ALL <br> MERCH &rarr;
+            </a>
+          </div>
+        </li>
+      {% else %}
+        <li class="grid__item grid__item--{{section.id}} {{ grid_item_width }}">
+          {% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+        </li>
+      {% endif %}
     {% else %}
 
       {% for i in (1..product_limit) %}
