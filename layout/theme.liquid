@@ -84,6 +84,11 @@
     {{ base_font_bolder | font_face: font_display: 'swap' }}
     {{ base_font_italic | font_face: font_display: 'swap' }}
     {{ base_font_bold_italic | font_face: font_display: 'swap' }}
+    body {
+      --vn-red: #ca5d45;
+      --vn-green-dark: #6fa085;
+      --vn-yellow: #f8e856;
+    }
   </style>
 
   <script>
@@ -166,7 +171,7 @@
   {{ content_for_header }}
 </head>
 
-<body class="template-{{ request.page_type | handle }}">
+<body class="template-{{ request.page_type | handle }} template-{{ template.suffix }}">
 
   <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
@@ -174,7 +179,7 @@
     {% include 'cart-popup' %}
   {%- endif -%}
 
-  {% section 'header-vn' %}
+  {% section 'header' %}
 
   <div class="page-container drawer-page-content" id="PageContainer">
 
