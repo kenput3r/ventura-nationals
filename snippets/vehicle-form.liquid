@@ -1,0 +1,68 @@
+<div class="inner-form"> 
+  <div class="grid grid--half-gutters">
+    <div class="grid__item medium-up--one-half">
+      <label for="contact-name">CONTACT NAME*</label>
+      <input type="text" id="contact-name" name="properties[Contact Name]" aria-required="true" required>
+    </div>
+
+    <div class="grid__item medium-up--one-half">
+      <label for="phone">PHONE*</label>
+      <input type="tel" id="phone" name="properties[Phone]" pattern="[0-9\-]*" aria-required="true" required>
+    </div>
+
+    <div class="grid__item medium-up--one-third">
+      <label for="make">MAKE*</label>
+      <input type="text" id="make" name="properties[Make]" aria-required="true" required>
+    </div>
+
+    <div class="grid__item medium-up--one-third">
+      <label for="model">MODEL*</label>
+      <input type="text" id="model" name="properties[Model]" aria-required="true" required>
+    </div>
+    
+    <div class="grid__item medium-up--one-third">
+      <label for="year">YEAR*</label>
+      <input type="text" id="year" name="properties[Year]" aria-required="true" required>
+    </div>
+
+    <div class="grid__item medium-up--one-half">
+      <label for="photo">UPLOAD PHOTO*</label>
+      <input type="file"
+       id="photo" name="photo"
+       accept="image/png, image/jpeg" aria-required="true" required>
+       <input id="photourl" type="hidden" name="properties[Photo]" aria-required="true" required />
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let file = null
+  const fileInput = document.querySelector("#photo")
+  const urlInput = document.querySelector("#photourl")
+  fileInput.addEventListener('change', async (event) => {
+    const uploadLoader = document.querySelector(".upload-loader")
+    const submitButton = document.querySelector(".product-form__cart-submit")
+    file = event.target.files[0]
+    console.log(file)
+    if(file) {
+      submitButton.style.display = "none"
+      uploadLoader.style.display = "block"
+      const cloudName = "kenput3r1"
+      const cloudinaryUrl = "https://api.cloudinary.com/v1_1/" + cloudName + "/upload"
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("upload_preset", "oolgpfo2")
+      const uploadResponse = await fetch(cloudinaryUrl, {
+        method: "POST",
+        body: formData,
+      })
+      const uploadJson = await uploadResponse.json()
+      console.log(uploadJson)
+      urlInput.value = uploadJson.secure_url
+      uploadLoader.style.display = "none"
+      submitButton.style.display = "block"
+    }
+
+  })
+</script>

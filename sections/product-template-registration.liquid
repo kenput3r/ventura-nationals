@@ -1,10 +1,68 @@
 <style>
+  .product-single__meta {
+    margin: 0 auto;
+    max-width: 100%;
+    width: 890px;
+  }
+  .title-group {
+    margin-bottom: 0.5em;
+    position: relative;
+  }
+  h1.product-single__title {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  h1.product-single__title span {
+    color: var(--vn-red);
+  }
+  .download-link-container {
+    bottom: 0;
+    display: inline-block;
+    margin-left: 30px;
+    margin-bottom: 0.5em;
+    position: absolute;
+  }
+  .download-link-container a {
+    background-color: var(--vn-green-dark);
+    color: #ffffff;
+    display: block;
+    padding: 10px;
+  }
+  .download-link-container a:before {
+    content: " ";
+    display: block;
+    height: 100%;
+    border: 1px solid var(--vn-green-dark);
+    width: 100%;
+    margin-top: -13px;
+    margin-left: -13px;
+    position: absolute;
+    z-index: 0;
+  }
+  .inner-form input, .inner-form textarea {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  textarea#special-requests {
+    margin-bottom: 0;
+  }
+  .variant-and-qty {
+    margin-top: 15px;
+  }
+  .product-form__item--submit {
+    height: 48px;
+    margin-left: auto;
+    max-width: 300px;
+    padding: 0;
+    position: relative;
+    text-align: center;
+  }
   .product-form__item--submit button.btn {
     background-color: var(--vn-red);
     font-family: var(--font-stack-body);
     font-size: 1.2rem;
     margin-bottom: 0;
-    position: relative;
   }
   .product-form__item--submit button.btn:hover {
     background-color: var(--vn-red);
@@ -19,6 +77,53 @@
     margin-left: -10px;
     position: absolute;
     z-index: 0;
+  }
+  .upload-loader {
+    display: none;
+  }
+  @media (max-width: 500px) {
+    h1.product-single__title {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+    .download-link-container {
+      float: right;
+      position: relative;
+    }
+    .product-form__item--submit {
+      margin-right: auto;
+    }
+  }
+  @media (min-width: 768px) {
+    header.site-header {
+      padding-bottom: 50px;
+    }
+    .site-header__mobile-nav {
+      background-color: transparent;
+      z-index: 13;
+    }
+    .page-container {
+      margin-top: -130px;
+      z-index: 11;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    ul#SiteNav, .site-header__icons-wrapper, ul#SiteNav, .site-header__icons-wrapper {
+      border-bottom: 0;
+    }
+  }
+  @media (min-width: 1024px) {
+    .page-container {
+      margin-top: -155px;
+    }
+  }
+  @media (min-width: 1200px) {
+    #SiteNav {
+      margin: 25px 0 10px 0;
+    }
+    .page-container {
+      margin-top: -170px;
+    }
   }
 </style>
 
@@ -158,8 +263,23 @@
     <div class="grid__item {{ product_description_width }}">
       <div class="product-single__meta">
 
-        <h1 class="product-single__title">{{ product.title }}</h1>
-        <script>window.performance.mark('debut:product:title_visible');</script>
+        <div class="title-group">
+          <h1 class="product-single__title">
+            {% if product.metafields.ventura_nationals.tagline %}
+            <span>{{ product.metafields.ventura_nationals.tagline }}</span><br />
+            {% endif %}
+            {{ product.title }}
+          </h1>
+          <script>window.performance.mark('debut:product:title_visible');</script>
+
+          {% if product.metafields.ventura_nationals.pdf_registration %}
+            <div class="download-link-container">
+              <a href="{{ product.metafields.ventura_nationals.pdf_registration }}" download>
+                DOWNLOAD PDF
+              </a>
+            </div>
+          {% endif %}
+        </div>
 
           <div class="product__price">
             {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
@@ -182,11 +302,17 @@
             {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
           {%- endcapture %}
 
-          {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
+          {% form 'product', product, class:form_classes, data-product-form: '' %}
             {{ form | payment_terms }}
 
+            {% if product.title == 'Vendor Registration' %}
+              {% include 'vendor-form' %}
+            {% elsif product.title == 'Car & Motorcycle Registration' %}
+              {% include 'vehicle-form' %}
+            {% endif %}
+
             {% unless product.has_only_default_variant %}
-              <div class="product-form__controls-group">
+              <div class="product-form__controls-group variant-and-qty">
                 {% for option in product.options_with_values %}
                   <div class="selector-wrapper js product-form__item">
                     <label for="SingleOptionSelector-{{ forloop.index0 }}">
@@ -202,6 +328,17 @@
                     </select>
                   </div>
                 {% endfor %}
+
+                {% if section.settings.show_quantity_selector %}
+                  <div class="product-form__item">
+                    <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+                    <input type="number" id="Quantity-{{ section.id }}"
+                      name="quantity" value="1" min="1" pattern="[0-9]*"
+                      class="product-form__input product-form__input--quantity" data-quantity-input
+                    >
+                  </div>
+                {% endif %}
+
               </div>
             {% endunless %}
 
@@ -214,18 +351,6 @@
                 </option>
               {% endfor %}
             </select>
-
-            {% if section.settings.show_quantity_selector %}
-              <div class="product-form__controls-group">
-                <div class="product-form__item">
-                  <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
-                  <input type="number" id="Quantity-{{ section.id }}"
-                    name="quantity" value="1" min="1" pattern="[0-9]*"
-                    class="product-form__input product-form__input--quantity" data-quantity-input
-                  >
-                </div>
-              </div>
-            {% endif %}
 
             <div class="product-form__error-message-wrapper product-form__error-message-wrapper--hidden{% if section.settings.enable_payment_button %} product-form__error-message-wrapper--has-payment-button{% endif %}"
               data-error-message-wrapper
@@ -241,6 +366,10 @@
                 {%- if section.settings.enable_payment_button %} product-form__item--payment-button {%- endif -%}
                 {%- if product.has_only_default_variant %} product-form__item--no-variants {%- endif -%}"
               >
+                {% if product.title == 'Car & Motorcycle Registration' %}
+                <div class="upload-loader">{% include 'icon-spinner' %}</div>
+                {% endif %}
+
                 <button type="submit" name="add"
                   {% unless current_variant.available %} aria-disabled="true"{% endunless %}
                   aria-label="{% unless current_variant.available %}{{ 'products.product.sold_out' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endunless %}"

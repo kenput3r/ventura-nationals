@@ -1,3 +1,37 @@
+<style>
+  .button-container {
+    display: block;
+    margin-left: auto;
+    position: relative;
+  }
+  .cart__continue-container.button-container {
+    margin-right: auto;
+  }
+  .button-container:before {
+    content: " ";
+    display: block;
+    height: 100%;
+    border: 2px solid var(--vn-red);
+    width: 100%;
+    margin-top: -4px;
+    margin-left: -4px;
+    position: absolute;
+    z-index: 0;
+  }
+  input.cart__submit.btn, a.cart__continue-btn {
+    background-color: var(--vn-red);
+    border: 1px solid var(--vn-red);
+    font-family: var(--font-stack-body);
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1;
+  }
+  input.cart__submit.btn:hover, a.cart__continue-btn:hover {
+    background-color: var(--vn-red) !important;
+    border: 1px solid var(--vn-red);
+  }
+</style>
+
 <div class="page-width" data-section-id="{{ section.id }}" data-section-type="cart-template" data-ajax-enabled="{{ section.settings.cart_ajax_enable }}">
 
   <div {% if cart.item_count == 0 %}class="hide" {% endif %}data-cart-wrapper>
@@ -277,13 +311,17 @@
             <div class="cart__buttons-container">
               <div class="cart__submit-controls">
                 {%- unless section.settings.cart_ajax_enable -%}
-                <input type="submit" name="update"
-                  class="cart__submit btn btn--secondary"
-                  value="{{ 'cart.general.update' | t }}">
+                <div class="button-container">
+                  <input type="submit" name="update"
+                    class="cart__submit btn btn--secondary"
+                    value="{{ 'cart.general.update' | t }}">
+                </div>
                 {%- endunless -%}
-                <input type="submit" name="checkout"
-                  class="cart__submit btn btn--small-wide"
-                  value="{{ 'cart.general.checkout' | t }}">
+                <div class="button-container">
+                  <input type="submit" name="checkout"
+                    class="cart__submit btn btn--small-wide"
+                    value="{{ 'cart.general.checkout' | t }}">
+                </div>
               </div>
 
               <div class="cart__error-message-wrapper hide" role="alert" data-cart-error-message-wrapper>
@@ -313,7 +351,11 @@
     <div class="cookie-message">
       <p>{{ 'cart.general.cookies_required' | t }}</p>
     </div>
-    <a href="{{ routes.root_url }}" class="btn btn--has-icon-after cart__continue-btn">{{ 'general.404.link' | t }}{% include 'icon-arrow-right' %}</a>
+    <div class="cart__submit-controls">
+      <div class="button-container cart__continue-container">
+        <a href="{{ routes.root_url }}" class="btn btn--has-icon-after cart__continue-btn">{{ 'general.404.link' | t }}{% include 'icon-arrow-right' %}</a>
+      </div>
+    </div>
   </div>
 </div>
 

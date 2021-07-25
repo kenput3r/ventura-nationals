@@ -46,6 +46,7 @@
     background-color: #9fc6b2;
     max-width: 100%;
     padding-top: 35px;
+    padding-bottom: 35px;
   }
   .footer-bottom .site-footer__content {
     margin-left: auto;
@@ -451,14 +452,14 @@
 
       {%- if social_icons and show_selectors -%}
         <div class="grid__item small--hide site-footer-item-align-right {% if show_payment_icons %}one-half{% endif %}">
-          <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small>
-          <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">{{ powered_by_link }}</small>
+          <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small> | 
+          <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">Built by <a href="https://kenput3r.com" target="_blank" rel="noreferrer">@kenput3r</a></small>
         </div>
       {%- endif -%}
 
       <div class="grid__item small--one-whole {{ copyright_show_class }} text-center">
-        <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small>
-        <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">{{ powered_by_link }}</small>
+        <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small> | 
+        <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">Built by <a href="https://kenput3r.com" target="_blank" rel="noreferrer">@kenput3r</a></small>
       </div>
     </div>
   </div>

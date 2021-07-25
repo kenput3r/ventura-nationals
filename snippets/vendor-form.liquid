@@ -1,0 +1,27 @@
+<div class="inner-form"> 
+  <div class="grid grid--half-gutters">
+    <div class="grid__item medium-up--one-half">
+      <label for="company-name">COMPANY NAME*</label>
+      <input type="text" id="company-name" name="properties[Company Name]" aria-required="true" required>
+    </div>
+    <div class="grid__item medium-up--one-half">
+      <label for="contact-name">CONTACT NAME*</label>
+      <input type="text" id="contact-name" name="properties[Contact Name]" aria-required="true" required>
+    </div>
+    <div class="grid__item medium-up--one-half">
+      <label for="phone">PHONE*</label>
+      <input type="tel" id="phone" name="properties[Phone]" pattern="[0-9\-]*" aria-required="true" required>
+    </div>
+    <div class="grid__item medium-up--one-half">
+      <label for="website">WEBSITE*</label>
+      <input type="text" id="website" name="properties[Website]" aria-required="true" required>
+    </div>
+  </div>
+
+  <label for="products-description">PLEASE DESCRIBE PRODUCTS BEING SOLD:*</label>
+  <textarea rows="5" id="products-description" name="properties[Products Description]" aria-required="true" required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+  <label for="special-requests">SPECIAL REQUESTS:</label>
+  <textarea rows="5" id="special-requests" name="properties[Special Requests]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+  <p><small>*THESE ARE NOT GUARANTEED</small></p>
+</div>
