@@ -41,10 +41,18 @@
   .hero {
     background-color: #000000;
   }
-  @media (max-width: 500px) {
-    #shopify-section-hero .hero-hero {
-      height: 320px;
+  .upcase {
+    text-transform: uppercase;
+  }
+  .upcase a {
+    color: var(--vn-red);
+  }
+  @media (max-width: 1024px) {
+    .hero--x-large {
+      background-size: contain;
     }
+  }
+  @media (max-width: 768px) {
     .schedule {
       flex-wrap: wrap;
     }
@@ -59,9 +67,19 @@
       padding-bottom: 30px;
     }
   }
+  @media (max-width: 500px) {
+    #shopify-section-hero .hero-hero {
+      height: 320px;
+    }
+  }
   @media (max-width: 320px) {
     #shopify-section-hero .hero-hero {
       height: 250px;
+    }
+  }
+  @media (min-width: 1090px) {
+    .hero--x-large {
+      height: 1090px;
     }
   }
 </style>
@@ -76,23 +94,28 @@
       <div class="schedule">
         <div class="column">
           <h2>FRIDAY <span>SEPT 3</span></h2>
-          <p>EVENTS TO BE ANNOUNCED SOON</p>
+          <p>FRIDAY NIGHT EVENTS WILL RETURN 2022</p>
         </div>
 
-        <div class="column">
+        <div class="column upcase">
           <h2>SATURDAY <span>SEPT 4</span></h2>
           <p>
-            <span>7am:</span> GATES OPEN FOR PARTICIPANTS <br />
-            <span>10am:</span> HOT ROD, CUSTOM & MOTORCYCLE SHOW BEGINS<br />
-            <span>4pm:</span> AWARDS<br />
-            <span>5pm:</span> END OF SHOW<br />
+            <span>7am -</span> GATES OPEN FOR PARTICIPANTS <br />
+            <span>10am -</span> HOT ROD, CUSTOM & MOTORCYCLE SHOW BEGINS<br />
+            <span>12pm -</span> JACKIE MENDEZ<br />
+            <span>1pm -</span> PEDAL CAR CRUISE & CONTEST<br />
+            <span>1:30pm -</span> <a href="https://the40acremule.com/" target="_blank">THE 40 ACRE MULE</a><br />
+            <span>3pm -</span> <a href="https://www.thedeltabombers.com" target="_blank">THE DELTA BOMBERS</a><br />
+            <span>4pm -</span> AWARDS<br />
+            <span>10:00AM - 5:00PM</span> - Ventura Nationals Artshow (Located at the Fairgrounds inside San Miguel Hall)<br />
+            <span>5pm -</span> END OF SHOW<br />
           </p>
         </div>
 
         <div class="column">
           <h2>SUNDAY <span>SEPT 5</span></h2>
           <p>
-            <span>9:30am:</span> RELIABILITY RUN CRUISE BEGINS
+            <span>9am:</span> RELIABILITY RUN BEGINS (MEETUP AT PLAZA PARK IN DOWNTOWN)
           </p>
           <p>DETAILS ON ROUTE AND ENDING LOCATION TO COME</p>
         </div>
